@@ -14,7 +14,7 @@ public:
 	void update(float delta) override 
 	{
 		CHECK_START;
-		for (auto& iter : _animAlphaList)
+		for (auto& iter : _animColorList)
 		{
 			iter.update(delta);
 		}
@@ -27,9 +27,9 @@ public:
 		
 		ofPushStyle();
 		int posX = 0;
-		for (auto& iter : _animAlphaList)
+		for (auto& iter : _animColorList)
 		{
-			ofSetColor(0, iter.getCurrentValue());
+			ofSetColor(iter.getCurrentValue());
 			ofDrawRectangle(posX, 0, cDisplayUnitWidth, cDisplayUnitHeight);
 			posX += cDisplayUnitWidth;
 		}
@@ -54,10 +54,10 @@ public:
 		}
 		_isStart = true;
 
-		for (auto& iter : _animAlphaList)
+		for (auto& iter : _animColorList)
 		{
 			iter.setDuration(1.0f);
-			iter.reset(255);
+			iter.reset(0);
 		}
 	};
 	
@@ -74,46 +74,46 @@ public:
 			switch (eType)
 			{
 			case eCtrl_ViewTrigger1: {
-				if (_animAlphaList[0].getCurrentValue() > 0)
+				if (_animColorList[0].getCurrentValue() > 0)
 				{
-					_animAlphaList[0].animateTo(0);
+					_animColorList[0].animateTo(0);
 				}
 				else
 				{
-					_animAlphaList[0].animateTo(255);
+					_animColorList[0].animateTo(255);
 				}
 				break;
 			}
 			case eCtrl_ViewTrigger2: {
-				if (_animAlphaList[1].getCurrentValue() > 0)
+				if (_animColorList[1].getCurrentValue() > 0)
 				{
-					_animAlphaList[1].animateTo(0);
+					_animColorList[1].animateTo(0);
 				}
 				else
 				{
-					_animAlphaList[1].animateTo(255);
+					_animColorList[1].animateTo(255);
 				}
 				break;
 			}
 			case eCtrl_ViewTrigger3: {
-				if (_animAlphaList[2].getCurrentValue() > 0)
+				if (_animColorList[2].getCurrentValue() > 0)
 				{
-					_animAlphaList[2].animateTo(0);
+					_animColorList[2].animateTo(0);
 				}
 				else
 				{
-					_animAlphaList[2].animateTo(255);
+					_animColorList[2].animateTo(255);
 				}
 				break;
 			}
 			case eCtrl_ViewTrigger4: {
-				if (_animAlphaList[3].getCurrentValue() > 0)
+				if (_animColorList[3].getCurrentValue() > 0)
 				{
-					_animAlphaList[3].animateTo(0);
+					_animColorList[3].animateTo(0);
 				}
 				else
 				{
-					_animAlphaList[3].animateTo(255);
+					_animColorList[3].animateTo(255);
 				}
 				break;
 			}
@@ -130,5 +130,5 @@ private:
 private:
 
 	array<bool, cDisplayNum> _flagList;
-	array<ofxAnimatableFloat, cDisplayNum> _animAlphaList;
+	array<ofxAnimatableFloat, cDisplayNum> _animColorList;
 };

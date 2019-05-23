@@ -262,6 +262,9 @@
     <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpTexture.cpp">
       <Filter>addons\ofxAssimpModelLoader\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\singleton\arenaOSC.cpp">
+      <Filter>src\singleton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -808,6 +811,9 @@
     </ClInclude>
     <ClInclude Include="src\S04.h">
       <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\singleton\arenaOSC.h">
+      <Filter>src\singleton</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

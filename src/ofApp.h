@@ -1,12 +1,12 @@
 #pragma once
 
+
 #include "ofMain.h"
-
-
-
+#include "Spout/Spout.h"
 #include "scene.h"
 #include "ctrlMap.h"
 #include "midiCtrl.h"
+#include "arenaOSC.h"
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
 
@@ -36,10 +36,22 @@ private:
 private:
 	bool _isPlay;
 	int _sceneIdx;
+	
 	vector<ofPtr<baseScene>> _sceneList;
 
+
 private:
-	ofEasyCam _cam;
+	void initSpout();
+	void updateSpout();
+	void beginSpout();
+	void endSpout();
+	void drawSpoutPreview(int x, int y, int w, int h);
+
+private:
+	bool _isSpoutInit;
+	SpoutSender _spoutSender;
+	int _outputMaskAlpha;
+	ofFbo _spoutCanvas;
 
 	//Midi
 public:
@@ -47,8 +59,10 @@ public:
 	void newMidiMessage(ofxMidiMessage& msg) override;
 
 private:
+	bool _ctrlOF;
 	struct midiCtrlData
 	{
+		eMidiCtrlCode code;
 		eCtrlType type;
 		int value;
 	};

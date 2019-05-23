@@ -244,6 +244,7 @@
     <ClCompile Include="..\..\..\addons\ofxXmlSettings\libs\tinyxmlerror.cpp" />
     <ClCompile Include="..\..\..\addons\ofxXmlSettings\libs\tinyxmlparser.cpp" />
     <ClCompile Include="src\particleSys.cpp" />
+    <ClCompile Include="src\singleton\arenaOSC.cpp" />
     <ClCompile Include="src\singleton\ctrlMap.cpp" />
     <ClCompile Include="src\singleton\midiCtrl.cpp" />
     <ClCompile Include="src\solar.cpp" />
@@ -390,6 +391,7 @@
     <ClInclude Include="src\S03.h" />
     <ClInclude Include="src\S04.h" />
     <ClInclude Include="src\scene.h" />
+    <ClInclude Include="src\singleton\arenaOSC.h" />
     <ClInclude Include="src\singleton\ctrlMap.h" />
     <ClInclude Include="src\singleton\midiCtrl.h" />
     <ClInclude Include="src\solar.h" />

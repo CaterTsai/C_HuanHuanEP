@@ -5,10 +5,18 @@ void ofApp::setup(){
 	ofBackground(0);
 	ofSetFrameRate(60);
 
-	//midiCtrl::GetInstance()->init();
-	//midiCtrl::GetInstance()->addListener(this);
+	_ctrlOF = true;
+	midiCtrl::GetInstance()->init();
+	midiCtrl::GetInstance()->addListener(this);
 
+	arenaOSC::GetInstance()->setup("192.168.0.10", 7000);
+
+	ofSetWindowPosition(960, 0);
+	_outputMaskAlpha = 0;
 	initScene();
+
+	_isSpoutInit = false;
+	initSpout();
 	_mainTimer = ofGetElapsedTimef();
 }
 
@@ -19,27 +27,23 @@ void ofApp::update(){
 
 	updateScnen(delta);
 
+	beginSpout();
+	drawScene();
+	endSpout();
+
+	updateSpout();
+	updateMidi();
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	
-	drawScene();
-
+		
+	drawSpoutPreview(0, 0, 480, 240);
 	drawSceneMsg();
 
-	ofSetDepthTest(false);
-	ofPushStyle();
-	ofNoFill();
-	ofSetLineWidth(2);
-	ofVec2f pos(0);
-	for (int i = 0; i < 4; i++)
-	{
-		ofDrawRectangle(pos, cDisplayUnitWidth, cDisplayUnitHeight);
-		pos.x += cDisplayUnitWidth;
-	}
-	ofPopStyle();
+	string msg = (_ctrlOF ? "Control OF" : "Control Arena");
+	ofDrawBitmapStringHighlight(msg, 0, 300);
 }
 
 //--------------------------------------------------------------
@@ -87,8 +91,9 @@ void ofApp::drawSceneMsg()
 {
 	string state = "Scene State:"; 
 	state += (_isPlay ? "Play" : "Stop");
-	ofDrawBitmapStringHighlight(state, 10, 15);
-	_sceneList[_sceneIdx]->showSceneMsg(10, 35);
+	
+	ofDrawBitmapStringHighlight(state, 10, 350);
+	_sceneList[_sceneIdx]->showSceneMsg(10, 370);
 }
 
 void ofApp::playScene()
@@ -159,6 +164,60 @@ void ofApp::sceneCtrl(eCtrlType eType, int value)
 		}
 		}
 	}
+
+	if (eType == eCtrl_ChangeMaskAlpha)
+	{
+		_outputMaskAlpha = ofMap(value, 0, cMidiValueMax, 0, 255);
+	}
+}
+
+#pragma endregion
+
+#pragma region Spout
+void ofApp::initSpout()
+{
+	char sendername[] = { "[C_HuanHuan Spout]" };
+	_isSpoutInit = _spoutSender.CreateSender(sendername, cDisplayUnitWidth * 4, cDisplayUnitHeight);
+	_spoutCanvas.allocate(cDisplayUnitWidth * 4, cDisplayUnitHeight, GL_RGBA);
+}
+void ofApp::updateSpout()
+{
+	if (_isSpoutInit)
+	{
+		_spoutSender.SendTexture(
+			_spoutCanvas.getTextureReference().getTextureData().textureID,
+			_spoutCanvas.getTextureReference().getTextureData().textureTarget,
+			_spoutCanvas.getWidth(),
+			_spoutCanvas.getHeight()
+		);
+	}
+
+
+}
+void ofApp::beginSpout()
+{
+	_spoutCanvas.begin();
+	ofClear(0);
+
+	
+}
+void ofApp::endSpout()
+{
+	//Cover
+	ofPushStyle();
+	ofSetColor(0, 255 - _outputMaskAlpha);
+	ofFill();
+	ofDrawRectangle(0, 0, _spoutCanvas.getWidth(), _spoutCanvas.getHeight());
+	ofPopStyle();
+
+	_spoutCanvas.end();
+}
+void ofApp::drawSpoutPreview(int x, int y, int w, int h)
+{
+	ofPushStyle();
+	ofSetColor(255);
+	_spoutCanvas.draw(x, y, w, h);
+	ofPopStyle();
 }
 #pragma endregion
 
@@ -167,22 +226,45 @@ void ofApp::sceneCtrl(eCtrlType eType, int value)
 //----------------------------------
 void ofApp::updateMidi()
 {
-	for (int i = 0; i < _midiQueue.size(); i++)
+	if (_midiQueue.size() == 0)
 	{
-		auto ctrl = _midiQueue.begin();
+		return;
+	}
+
+	auto ctrl = _midiQueue.begin();
+
+	if (_ctrlOF)
+	{
 		_sceneList[_sceneIdx]->control(ctrl->type, ctrl->value);
 		sceneCtrl(ctrl->type, ctrl->value);
-		_midiQueue.pop_front();
 	}
+	else
+	{
+		arenaOSC::GetInstance()->send(ctrl->code, ctrl->value);
+	}
+	
+	_midiQueue.pop_front();
 }
 
 //----------------------------------
 void ofApp::newMidiMessage(ofxMidiMessage & msg)
 {
-	cout << msg.control << endl;
+	if (msg.control == eMidiSetBtn)
+	{
+		if (msg.value == cMidiButtonPress)
+		{
+			_ctrlOF ^= true;
+			_midiQueue.clear();
+		}
+	}
+	else
+	{
+		midiCtrlData newCtrl;
+		newCtrl.code = (eMidiCtrlCode)msg.control;
+		newCtrl.type = ctrlMap::GetInstance()->midi2Ctrl[msg.control];
+		newCtrl.value = msg.value;
+		_midiQueue.push_back(newCtrl);
+	}
 	
-	midiCtrlData newCtrl;
-	newCtrl.type = ctrlMap::GetInstance()->midi2Ctrl[msg.control];
-	newCtrl.value = msg.value;
-	_midiQueue.push_back(newCtrl);
+	
 }
