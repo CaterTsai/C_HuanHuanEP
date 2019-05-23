@@ -1,0 +1,6 @@
+ofxAnimatable
+ofxGui
+ofxMidi
+ofxPostProcessing
+ofxTrueTypeFontUC
+ofxXmlSettings
