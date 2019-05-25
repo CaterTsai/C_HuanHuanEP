@@ -9,9 +9,9 @@ void ofApp::setup(){
 	midiCtrl::GetInstance()->init();
 	midiCtrl::GetInstance()->addListener(this);
 
-	arenaOSC::GetInstance()->setup("192.168.0.10", 7000);
+	arenaOSC::GetInstance()->setup("192.168.3.210", 7000);
 
-	ofSetWindowPosition(960, 0);
+	ofSetWindowPosition(1440, 0);
 	_outputMaskAlpha = 0;
 	initScene();
 

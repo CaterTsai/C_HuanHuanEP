@@ -202,7 +202,7 @@ void solar::initCamNCanvas(int w, int h)
 void solar::initHeart()
 {
 	_heartModel.loadModel("heart/heart.obj", true);
-	_heartModel.setScale(0.15f, 0.15f, 0.15f);
+	_heartModel.setScale(0.5f, 0.5f, 0.5f);
 	_heartModel.setPosition(0, 75, 0);
 }
 

@@ -58,7 +58,7 @@ public:
 			return;
 		}
 		_updateIcon = false;
-		ofSetDepthTest(true);
+		ofSetDepthTest(false);
 		_isStart = true;
 	};
 
@@ -91,19 +91,19 @@ public:
 				break;
 			}
 			case eCtrl_ViewTrigger5: {
-				_symbolList[0]._dayNight.play(0.5f);
+				_symbolList[0]._dayNight.play(0.25f);
 				break;
 			}
 			case eCtrl_ViewTrigger6: {
-				_symbolList[1]._dayNight.play(0.5f);
+				_symbolList[1]._dayNight.play(0.25f);
 				break;
 			}
 			case eCtrl_ViewTrigger7: {
-				_symbolList[2]._dayNight.play(0.5f);
+				_symbolList[2]._dayNight.play(0.25f);
 				break;
 			}
 			case eCtrl_ViewTrigger8: {
-				_symbolList[3]._dayNight.play(0.5f);
+				_symbolList[3]._dayNight.play(0.25f);
 				break;
 			}
 			case eCtrl_ViewTrigger9: {
@@ -139,7 +139,7 @@ public:
 				}
 				else
 				{
-					_animHandDrawLevel.animateFromTo(1.0f, 0.1f);
+					_animHandDrawLevel.animateFromTo(1.0f, 0.2f);
 					_animHandDrawLevel.setRepeatType(AnimRepeat::LOOP);
 					_animHandDrawLevel.setCurve(AnimCurve::EASE_OUT);
 					_animHandDrawLevel.setDuration(0.5f);
@@ -220,8 +220,8 @@ private:
 		void init(ofPath p, int x, int y, int w, int h)
 		{
 			_icon.setUpdateTime(0.1f);
-			_icon.setIcon(p, w * 0.25);
-			_icon.setHandDrawLevel(0.1f);
+			_icon.setIcon(p, w * 0.4);
+			_icon.setHandDrawLevel(0.3f);
 			_dayNight.init(w * 1.5, h * 1.5, 10, 20);
 			_pos.set(x, y);
 

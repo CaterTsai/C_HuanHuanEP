@@ -85,13 +85,13 @@ public:
 				break;
 			}
 			case eCtrl_ViewTrigger6: {
-				_solarSpace.setFourCamDist(500);
-				_solarSpace.setFourCamHeight(100);
+				_solarSpace.setFourCamDist(600);
+				_solarSpace.setFourCamHeight(150);
 				break;
 			}
 			case eCtrl_ViewTrigger7: {
-				_solarSpace.setFourCamDist(700);
-				_solarSpace.setFourCamHeight(200);
+				_solarSpace.setFourCamDist(250);
+				_solarSpace.setFourCamHeight(0);
 				break;
 			}
 			case eCtrl_ViewTrigger9: {

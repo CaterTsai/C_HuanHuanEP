@@ -56,6 +56,7 @@ void DAlchemicalDaynight::draw(int x, int y)
 		return;
 	}
 
+	ofPushStyle();
 	ofPushMatrix();
 	ofTranslate(x + _unitW * 0.5, y + _unitH * 0.5);
 
@@ -81,6 +82,7 @@ void DAlchemicalDaynight::draw(int x, int y)
 		}
 	}
 	ofPopMatrix();
+	ofPopStyle();
 }
 
 void DAlchemicalDaynight::reset()
@@ -249,14 +251,14 @@ void DAlchemicalDaynight::stateCheck(float delta)
 
 void DAlchemicalDaynight::drawUnit()
 {
-	ofSetLineWidth(1);
+	ofSetLineWidth(5);
 	ofLine(_leftPos, _leftLinePos);
 	ofLine(_rightPos, _rightLinePos);
 
-	ofNoFill();
-	ofSetLineWidth(2);
-	ofDrawCircle(_leftPos, _unitW * 0.08);
-	ofDrawCircle(_rightPos, _unitW * 0.08);
+	ofFill();
+	//ofSetLineWidth(2);
+	ofDrawCircle(_leftPos, _unitW * 0.15);
+	ofDrawCircle(_rightPos, _unitW * 0.15);
 }
 
 void DAlchemicalDaynight::updateLinePos()

@@ -225,7 +225,7 @@ void travelSpace::drawOnCam(ofFbo & canvas, ofEasyCam & cam)
 	if (_isDelay)
 	{
 		ofFill();
-		ofSetColor(_animBGColor.getCurrentColor(), 20);
+		ofSetColor(_animBGColor.getCurrentColor());
 		ofDrawRectangle(0, 0, canvas.getWidth(), canvas.getHeight());
 	}
 	else
